@@ -354,6 +354,13 @@
             }
         ];
 
+        // HTML escape function to prevent XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
         function drawCard() {
             // 隨機選擇一張牌
             const cardIndex = Math.floor(Math.random() * cards.length);
@@ -374,11 +381,11 @@
             
             // 如果有輸入問題，顯示問題
             if (userQuestion) {
-                resultHTML += `<div class="user-question">你的問題：${userQuestion}</div>`;
+                resultHTML += `<div class="user-question">你的問題：${escapeHtml(userQuestion)}</div>`;
             }
             
             // 顯示牌名
-            resultHTML += `<div class="card-name">${card.name}</div>`;
+            resultHTML += `<div class="card-name">${escapeHtml(card.name)}</div>`;
             
             // 顯示正逆位標籤
             const positionClass = isReversed ? 'reversed' : 'upright';
@@ -386,7 +393,7 @@
             resultHTML += `<div class="position-badge ${positionClass}">${positionText}</div>`;
             
             // 顯示敘述
-            resultHTML += `<div class="card-description">${description}</div>`;
+            resultHTML += `<div class="card-description">${escapeHtml(description)}</div>`;
             
             // 更新結果區域
             const resultDiv = document.getElementById('result');
